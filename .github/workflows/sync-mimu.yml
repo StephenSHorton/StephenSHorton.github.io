@@ -1,0 +1,32 @@
+name: Sync mimu into /mimu/
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/sync-mimu'
+      - '.github/workflows/sync-mimu.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: StephenSHorton/mimu
+          ref: gh-pages
+          path: _mimu_src
+      - name: Copy published site into /mimu
+        run: |
+          rm -rf mimu
+          mkdir -p mimu
+          cp -a _mimu_src/. mimu/
+          rm -rf mimu/.git
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Publish ミーム v1.0.0 to /mimu/
