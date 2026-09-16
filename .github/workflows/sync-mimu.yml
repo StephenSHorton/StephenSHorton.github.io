@@ -20,13 +20,13 @@ jobs:
         with:
           repository: StephenSHorton/mimu
           ref: gh-pages
-          path: _mimu_src
+          path: ${{ runner.temp }}/mimu-src
       - name: Copy published site into /mimu
         run: |
-          rm -rf mimu
+          rm -rf mimu _mimu_src
           mkdir -p mimu
-          cp -a _mimu_src/. mimu/
+          cp -a "${{ runner.temp }}/mimu-src/." mimu/
           rm -rf mimu/.git
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Publish ミーム v1.0.0 to /mimu/
+          commit_message: Publish ミーム from StephenSHorton/mimu gh-pages
