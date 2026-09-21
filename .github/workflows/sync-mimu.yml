@@ -16,11 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: StephenSHorton/mimu
-          ref: gh-pages
-          path: ${{ runner.temp }}/mimu-src
+      - name: Fetch published mimu from public gh-pages
+        run: |
+          git clone --depth 1 --branch gh-pages https://github.com/StephenSHorton/mimu.git "${{ runner.temp }}/mimu-src"
       - name: Copy published site into /mimu
         run: |
           rm -rf mimu _mimu_src
